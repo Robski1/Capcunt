@@ -1,12 +1,16 @@
 from pynput import keyboard
 from pynput.keyboard import Key, Controller
-import random
-import threading
+import random, sys, threading, os
 from tkinter import *
+from tkinter import messagebox
 
 k = Controller()
 numbers={"i":"1","e":"3","a":"4","s":"5","t":"7","g":"9","o":"0"}
 special={"a":"₳","b":"฿","c":"₵","d":"Đ","e":"Ɇ","f":"₣","g":"₲","h":"Ⱨ","i":"ł","j":"J","k":"₭","l":"Ⱡ","m":"₥","n":"₦","o":"Ø","p":"₱","q":"Q","r":"Ɽ","s":"₴","t":"₮","u":"Ʉ","v":"V","w":"₩","x":"Ӿ","y":"Ɏ","z":"Ⱬ"}
+
+def on_closing():
+    if messagebox.askokcancel("Quit", "Do you want to quit?"):
+        os._exit(0)
 
 global boolcaps
 global boolspecial
@@ -146,5 +150,6 @@ lbl5=Label(window,text="OFF",bg="black",fg="green")
 lbl5.grid(column=2, row=2)
 lbl5.config(text="OFF",font=('ariel', 23))
 
-threading.Thread(target=listen).start()
+window.protocol("WM_DELETE_WINDOW", on_closing)
+thread = threading.Thread(target=listen).start()
 window.mainloop()
